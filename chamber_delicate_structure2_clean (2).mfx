@@ -1,0 +1,627 @@
+#! File written Tue Oct  5 18:16:49 2021
+#! MFiX version 21.3 by dietikej on login03
+#! Template used to format file: "detailed"
+
+
+#_______________________________________________________________________
+# Project Description
+
+description     = 'MFiX Simulation'
+project_version = '133'
+run_name        = 'chamber_delicate_structure1'
+units           = 'SI'
+
+#_______________________________________________________________________
+# Run
+
+run_type = 'new'
+tstop    = 1.0
+
+dt     = 1.0000e-05
+dt_min = 1.0000e-09
+dt_max = 1.0000e-03
+dt_fac = 0.9
+
+
+ppo = .False.
+
+#_______________________________________________________________________
+# Energy Equation
+
+energy_eq = .False.
+
+#_______________________________________________________________________
+# Turbulence
+
+turbulence_model = 'NONE'
+
+#_______________________________________________________________________
+# Gravity
+
+gravity_x = 0.0
+gravity_y = -9.80665
+gravity_z = 0.0
+
+#_______________________________________________________________________
+# Drag
+
+drag_type = 'SYAM_OBRIEN'
+drag_c1   = 0.8
+drag_d1   = 2.65
+
+#_______________________________________________________________________
+# Advanced
+
+
+#_______________________________________________________________________
+# Geometry - MFiX Box
+
+coordinates = 'CARTESIAN'
+
+
+x_min = -0.001
+x_max = 0.061
+
+y_min = 0.001
+y_max = 0.028
+
+z_min = -0.001
+z_max = 0.024
+
+
+#_______________________________________________________________________
+# Geometry - Input
+
+cartesian_grid = .True.
+
+
+use_stl = .True.
+
+
+## Geometry Input - STL File
+
+
+## Geometry Input - .msh file
+
+
+#_______________________________________________________________________
+# Background mesh - Grid spacing
+
+imax = 300
+jmax = 130
+kmax = 120
+
+
+#_______________________________________________________________________
+# Cut cell tolerances
+
+
+tol_small_cell       = 0.1
+tol_small_area       = 0.1
+tol_merge            = 0.0
+tol_snap(1)          = 0.2
+tol_snap(2)          = 0.2
+tol_snap(3)          = 0.2
+fac_dim_max_cut_cell = 1.0
+tol_delh             = 0.2
+
+stl_small_angle = 1.0000e-06
+tol_stl         = 1.0000e-16
+tol_stl_dp      = 1.0000e-07
+
+
+#_______________________________________________________________________
+# Fluid Phase
+
+momentum_x_eq(0) = .True.
+momentum_y_eq(0) = .True.
+momentum_z_eq(0) = .True.
+
+mu_g0  = 1.8000e-05
+mw_avg = 29.0
+
+species_eq(0) = .False.
+
+
+#_______________________________________________________________________
+# Solids Phase - Material
+
+mmax = 1
+
+# Solid 1
+
+solids_model(1) = 'TFM'
+
+d_p0(1)  = 5.0000e-05
+ro_s0(1) = 1450.0
+k_s0(1)  = 1.0
+
+species_eq(1) = .False.
+nmax_s(1)     = 0
+
+
+# Maximum packing
+ep_star = 0.42
+
+ks_model(1) = 'BAUER'
+
+#_______________________________________________________________________
+# Solids Phase - TFM settings
+
+
+kt_type        = 'ALGEBRAIC'
+friction_model = 'SCHAEFFER'
+
+c_e = 0.95
+c_f = 0.1
+
+phi   = 30.0
+phi_w = 11.3
+
+rdf_type = 'CARNAHAN_STARLING'
+
+
+#_______________________________________________________________________
+# Solids Phase - Lagrangian settings (common to DEM/PIC)
+
+
+#_______________________________________________________________________
+# DEM contact
+
+
+mew   = 0.1
+mew_w = 0.1
+
+kn   = 1000
+kn_w = 1000
+
+des_en_input(1)      = 0.9
+des_en_wall_input(1) = 0.9
+
+
+#_______________________________________________________________________
+# DEM cohesion
+
+
+#_______________________________________________________________________
+# DEM - Advanced
+
+
+#_______________________________________________________________________
+# Initial conditions
+
+# Initial condition 1: Background IC
+ic_x_w(1) = -0.001 #!MFIX-GUI eq{float(xmin)}
+ic_x_e(1) = 0.061 #!MFIX-GUI eq{float(xmax)}
+ic_y_s(1) = 0.001 #!MFIX-GUI eq{float(ymin)}
+ic_y_n(1) = 0.028 #!MFIX-GUI eq{float(ymax)}
+ic_z_b(1) = -0.001 #!MFIX-GUI eq{float(zmin)}
+ic_z_t(1) = 0.024 #!MFIX-GUI eq{float(zmax)}
+
+## Fluid Phase
+ic_ep_g(1) = 1.0
+ic_p_g(1)  = 101325.0
+ic_t_g(1)  = 293.15
+ic_u_g(1)  = 0.0
+ic_v_g(1)  = 0.0
+ic_w_g(1)  = 0.0
+
+
+ic_p_star(1) = 0.0
+
+
+## Solid 1
+ic_ep_s(1,1) = 0.0
+
+
+ic_t_s(1,1) = 293.15
+ic_u_s(1,1) = 0.0
+ic_v_s(1,1) = 0.0
+ic_w_s(1,1) = 0.0
+
+
+ic_des_fit_to_region(1) = .False.
+
+
+# Initial condition 2: bed
+ic_x_w(2) = -0.001 #!MFIX-GUI eq{float(xmin)}
+ic_x_e(2) = 0.061 #!MFIX-GUI eq{float(xmax)}
+ic_y_s(2) = 0.005 #!MFIX-GUI eq{float(ymin+0.004)}
+ic_y_n(2) = 0.015
+ic_z_b(2) = -0.001 #!MFIX-GUI eq{float(zmin)}
+ic_z_t(2) = 0.024 #!MFIX-GUI eq{float(zmax)}
+
+## Fluid Phase
+ic_ep_g(2) = 0.5
+ic_p_g(2)  = 101325.0
+ic_t_g(2)  = 293.15
+ic_u_g(2)  = 0.0
+ic_v_g(2)  = 0.01
+ic_w_g(2)  = 0.0
+
+
+ic_p_star(2) = 0.0
+
+
+## Solid 1
+ic_ep_s(2,1) = 0.5
+
+
+ic_t_s(2,1) = 293.15
+ic_u_s(2,1) = 0.0
+ic_v_s(2,1) = 0.01
+ic_w_s(2,1) = 0.0
+
+
+ic_des_fit_to_region(2) = .False.
+
+
+#_______________________________________________________________________
+# Cyclic Boundary conditions
+
+
+#_______________________________________________________________________
+# Boundary conditions
+
+# Boundary condition 1: bounds
+bc_type(1) = 'CG_NSW'
+bc_x_w(1)  = 0
+bc_x_e(1)  = 0
+bc_y_s(1)  = 0
+bc_y_n(1)  = 0
+bc_z_b(1)  = 0
+bc_z_t(1)  = 0
+
+
+## Fluid Phase
+
+
+bc_uw_g(1) = 0.0
+bc_vw_g(1) = 0.0
+bc_ww_g(1) = 0.0
+
+
+## Solid 1
+
+
+bc_uw_s(1,1) = 0.0
+bc_vw_s(1,1) = 0.0
+bc_ww_s(1,1) = 0.0
+
+bc_jj_ps(1) = 0
+
+
+# Boundary condition 2: inlet
+bc_type(2) = 'MI'
+bc_x_w(2)  = -0.001 #!MFIX-GUI eq{float(xmin)}
+bc_x_e(2)  = 0.061 #!MFIX-GUI eq{float(xmax)}
+bc_y_s(2)  = 0.001 #!MFIX-GUI eq{float(ymin)}
+bc_y_n(2)  = 0.001 #!MFIX-GUI eq{float(ymin)}
+bc_z_b(2)  = -0.001 #!MFIX-GUI eq{float(zmin)}
+bc_z_t(2)  = 0.024 #!MFIX-GUI eq{float(zmax)}
+
+
+## Fluid Phase
+bc_ep_g(2)       = 1.0
+bc_massflow_g(2) = 1.3000e-04
+bc_p_g(2)        = 3.5000e+05
+bc_t_g(2)        = 293.15
+bc_u_g(2)        = 0.0
+bc_v_g(2)        = 0.0
+bc_w_g(2)        = 0.0
+
+
+## Solid 1
+bc_ep_s(2,1) = 0.0
+
+
+bc_t_s(2,1) = 293.15
+bc_u_s(2,1) = 0.0
+bc_v_s(2,1) = 0.0
+bc_w_s(2,1) = 0.0
+
+
+# Boundary condition 3: outlet
+bc_type(3) = 'PO'
+bc_x_w(3)  = 0.061 #!MFIX-GUI eq{float(xmax)}
+bc_x_e(3)  = 0.061 #!MFIX-GUI eq{float(xmax)}
+bc_y_s(3)  = 0.001 #!MFIX-GUI eq{float(ymin)}
+bc_y_n(3)  = 0.028 #!MFIX-GUI eq{float(ymax)}
+bc_z_b(3)  = -0.001 #!MFIX-GUI eq{float(zmin)}
+bc_z_t(3)  = 0.024 #!MFIX-GUI eq{float(zmax)}
+
+
+## Fluid Phase
+bc_p_g(3) = 101325.0
+
+
+## Solid 1
+
+
+#_______________________________________________________________________
+# Chemistry solver
+
+
+#_______________________________________________________________________
+# Numerics
+
+detect_stall = .True.
+max_nit      = 50
+
+norm_g  = 0.0
+ppg_den = 1.0
+norm_s  = 0.0
+epp_den = 1.0
+
+tol_resid    = 0.001
+tol_resid_th = 0.0001
+
+
+  leq_it(1) = 200
+  leq_pc(1) = 'NONE'
+
+  leq_it(2) = 200
+  leq_pc(2) = 'NONE'
+
+  leq_pc(3) = 'NONE'
+
+  leq_pc(4) = 'NONE'
+
+  leq_pc(5) = 'NONE'
+
+
+max_inlet_vel_fac = 10.0
+
+
+#_______________________________________________________________________
+# Output
+
+res_dt = 0.1
+
+
+# Residuals
+  resid_string(1) = 'P0'
+  resid_string(2) = 'U0'
+  resid_string(3) = 'V0'
+  resid_string(4) = 'P1'
+  resid_string(5) = 'U1'
+  resid_string(6) = 'V1'
+
+full_log = .True.
+
+
+#_______________________________________________________________________
+# VTK outputs
+
+write_vtk_files         = .True.
+time_dependent_filename = .True.
+
+# VTK output 1: Background IC
+vtk_x_w(1) = -0.001 #!MFIX-GUI eq{float(xmin)}
+vtk_x_e(1) = 0.061 #!MFIX-GUI eq{float(xmax)}
+vtk_y_s(1) = 0.001 #!MFIX-GUI eq{float(ymin)}
+vtk_y_n(1) = 0.028 #!MFIX-GUI eq{float(ymax)}
+vtk_z_b(1) = -0.001 #!MFIX-GUI eq{float(zmin)}
+vtk_z_t(1) = 0.024 #!MFIX-GUI eq{float(zmax)}
+
+vtk_filebase(1) = 'Background_IC'
+vtk_dt(1)       = 0.1
+
+vtk_nxs(1) = 0
+vtk_nys(1) = 0
+vtk_nzs(1) = 0
+
+vtk_data(1) = 'C'
+
+
+## Fluid Phase
+vtk_ep_g(1)  = .True.
+vtk_p_g(1)   = .True.
+vtk_vel_g(1) = .True.
+
+
+## Solid 1
+vtk_rop_s(1,1) = .True.
+vtk_vel_s(1,1) = .True.
+
+
+## Reaction rates (cell data)
+
+## Reaction rates (particle/parcel data converted to cell data)
+
+
+## Reaction rates (particle/parcel data)
+
+
+# VTK output 2: slice_v
+vtk_x_w(2) = 0.015
+vtk_x_e(2) = 0.015
+vtk_y_s(2) = 0.001 #!MFIX-GUI eq{float(ymin)}
+vtk_y_n(2) = 0.028 #!MFIX-GUI eq{float(ymax)}
+vtk_z_b(2) = -0.001 #!MFIX-GUI eq{float(zmin)}
+vtk_z_t(2) = 0.024 #!MFIX-GUI eq{float(zmax)}
+
+vtk_filebase(2) = 'slice_v'
+vtk_dt(2)       = 0.001
+
+vtk_nxs(2) = 0
+vtk_nys(2) = 0
+vtk_nzs(2) = 0
+
+vtk_data(2) = 'C'
+
+
+## Fluid Phase
+vtk_ep_g(2)  = .True.
+vtk_p_g(2)   = .True.
+vtk_vel_g(2) = .True.
+
+
+## Solid 1
+vtk_ep_s(2,1)  = .True.
+vtk_rop_s(2,1) = .True.
+vtk_vel_s(2,1) = .True.
+
+
+## Reaction rates (cell data)
+
+## Reaction rates (particle/parcel data converted to cell data)
+
+
+## Reaction rates (particle/parcel data)
+
+
+# VTK output 3: slice_h
+vtk_x_w(3) = -0.001 #!MFIX-GUI eq{float(xmin)}
+vtk_x_e(3) = 0.061 #!MFIX-GUI eq{float(xmax)}
+vtk_y_s(3) = 0.0218
+vtk_y_n(3) = 0.0218
+vtk_z_b(3) = -0.001 #!MFIX-GUI eq{float(zmin)}
+vtk_z_t(3) = 0.024 #!MFIX-GUI eq{float(zmax)}
+
+vtk_filebase(3) = 'slice_h'
+vtk_dt(3)       = 0.001
+
+vtk_nxs(3) = 0
+vtk_nys(3) = 0
+vtk_nzs(3) = 0
+
+vtk_data(3) = 'C'
+
+
+## Fluid Phase
+vtk_ep_g(3)  = .True.
+vtk_p_g(3)   = .True.
+vtk_vel_g(3) = .True.
+
+
+## Solid 1
+vtk_ep_s(3,1)  = .True.
+vtk_rop_s(3,1) = .True.
+vtk_vel_s(3,1) = .True.
+
+
+## Reaction rates (cell data)
+
+## Reaction rates (particle/parcel data converted to cell data)
+
+
+## Reaction rates (particle/parcel data)
+
+
+#_______________________________________________________________________
+# Parallelization
+
+nodesi = 1
+nodesj = 1
+nodesk = 1
+
+
+#_______________________________________________________________________
+# Batch
+
+chk_batchq_end  = .True.
+batch_wallclock = 172800.0
+term_buffer     = 180.0
+
+#_______________________________________________________________________
+# Dashboard
+
+write_dashboard = .False.
+
+#_______________________________________________________________________
+# Unsupported keys
+
+
+#_______________________________________________________________________
+# End of keywords
+#
+
+# MFIX-GUI section
+#!MFIX-GUI regions_dict = {"order": ["Background IC", "bounds", "inlet",
+#!MFIX-GUI   "outlet", "bed", "slice_v", "slice_h"], "regions": {"Background
+#!MFIX-GUI   IC": {"to": [{"__type__": "equation", "eq": "float(xmax)"},
+#!MFIX-GUI   {"__type__": "equation", "eq": "float(ymax)"}, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(zmax)"}], "from": [{"__type__":
+#!MFIX-GUI   "equation", "eq": "float(xmin)"}, {"__type__": "equation", "eq":
+#!MFIX-GUI   "float(ymin)"}, {"__type__": "equation", "eq": "float(zmin)"}],
+#!MFIX-GUI   "color": "#ffffff", "geometry_pool":
+#!MFIX-GUI   ["chamber_delicate_structure2.stl"]}, "bounds": {"facet_count":
+#!MFIX-GUI   1298, "color": "#d77595", "geometry_pool":
+#!MFIX-GUI   ["chamber_delicate_structure2_clean.stl"], "type": "STL"}, "inlet":
+#!MFIX-GUI   {"to": [{"__type__": "equation", "eq": "float(xmax)"}, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(ymin)"}, {"__type__": "equation", "eq":
+#!MFIX-GUI   "float(zmax)"}], "from": [{"__type__": "equation", "eq":
+#!MFIX-GUI   "float(xmin)"}, {"__type__": "equation", "eq": "float(ymin)"},
+#!MFIX-GUI   {"__type__": "equation", "eq": "float(zmin)"}], "color": "#00ff7f",
+#!MFIX-GUI   "geometry_pool": ["chamber_delicate_structure2.stl"], "type":
+#!MFIX-GUI   "XZ-plane"}, "outlet": {"to": [{"__type__": "equation", "eq":
+#!MFIX-GUI   "float(xmax)"}, {"__type__": "equation", "eq": "float(ymax)"},
+#!MFIX-GUI   {"__type__": "equation", "eq": "float(zmax)"}], "from":
+#!MFIX-GUI   [{"__type__": "equation", "eq": "float(xmax)"}, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(ymin)"}, {"__type__": "equation", "eq":
+#!MFIX-GUI   "float(zmin)"}], "color": "#86c37b", "geometry_pool":
+#!MFIX-GUI   ["chamber_delicate_structure2.stl"], "type": "YZ-plane"}, "bed":
+#!MFIX-GUI   {"to": [{"__type__": "equation", "eq": "float(xmax)"}, 0.015,
+#!MFIX-GUI   {"__type__": "equation", "eq": "float(zmax)"}], "from":
+#!MFIX-GUI   [{"__type__": "equation", "eq": "float(xmin)"}, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(ymin+0.004)"}, {"__type__": "equation",
+#!MFIX-GUI   "eq": "float(zmin)"}], "color": "#ff55ff", "geometry_pool":
+#!MFIX-GUI   ["chamber_delicate_structure2.stl"]}, "slice_v": {"to": [0.015,
+#!MFIX-GUI   {"__type__": "equation", "eq": "float(ymax)"}, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(zmax)"}], "from": [0.015, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(ymin)"}, {"__type__": "equation", "eq":
+#!MFIX-GUI   "float(zmin)"}], "color": "#ff0000", "geometry_pool":
+#!MFIX-GUI   ["chamber_delicate_structure2.stl"], "type": "YZ-plane"},
+#!MFIX-GUI   "slice_h": {"to": [{"__type__": "equation", "eq": "float(xmax)"},
+#!MFIX-GUI   0.0218, {"__type__": "equation", "eq": "float(zmax)"}], "from":
+#!MFIX-GUI   [{"__type__": "equation", "eq": "float(xmin)"}, 0.0218,
+#!MFIX-GUI   {"__type__": "equation", "eq": "float(zmin)"}], "color": "#0000ff",
+#!MFIX-GUI   "geometry_pool": ["chamber_delicate_structure2.stl"], "type":
+#!MFIX-GUI   "XZ-plane"}}}
+#!MFIX-GUI author = juu
+#!MFIX-GUI created_date = 2021-10-04 11:48
+#!MFIX-GUI modified_time = 2021-10-05 17:36
+#!MFIX-GUI project_version = 133
+#!MFIX-GUI gui_version = 21.3
+#!MFIX-GUI project_notes = ""
+#!MFIX-GUI modified_by = juu|dietikej
+#!MFIX-GUI geometry = {"geometry_dict":
+#!MFIX-GUI   {"chamber_delicate_structure2_clean.stl": {"geo_type": "stl",
+#!MFIX-GUI   "filename": "${proj_dir}/chamber_delicate_structure2_clean.STL",
+#!MFIX-GUI   "centerx": 0.020751191736630266, "centery": 0.01622990729489029,
+#!MFIX-GUI   "centerz": 0.011600233190908613, "extentxmax": 0.062, "extentymax":
+#!MFIX-GUI   0.027168, "extentzmax": 0.0232}}, "tree":
+#!MFIX-GUI   {"chamber_delicate_structure2_clean.stl": []}}
+#!MFIX-GUI visual_props = {"mesh": {"color": "#f44328", "visible": false,
+#!MFIX-GUI   "opacity": 1, "rep": "solid", "edge": "#7a2114", "color_map":
+#!MFIX-GUI   "greys"}, "background_mesh": {"color": "#64b6f7", "visible": false,
+#!MFIX-GUI   "opacity": 1.0, "rep": "edges", "edge": "#325b7b"}, "geometry":
+#!MFIX-GUI   {"color": "#d9d9d9", "visible": false, "opacity": 0.5, "rep":
+#!MFIX-GUI   "solid", "edge": "#6c6c6c"}, "regions": {"color": "#e0e0e0",
+#!MFIX-GUI   "visible": false, "opacity": 0.4, "rep": "edges", "edge":
+#!MFIX-GUI   "#707070"}, "normals": {"color": "#00aa00", "visible": true,
+#!MFIX-GUI   "scale": 0.0002, "count": "200000000", "edge": "#005500"}, "axes":
+#!MFIX-GUI   {"color": "#0000e0", "visible": true, "edge": "#000070"},
+#!MFIX-GUI   "boundary": {"color": "#0000e0", "opacity": 1.0, "rep": "edges",
+#!MFIX-GUI   "visible": true, "color_by": "bc_id", "edge": "#000070"}}
+#!MFIX-GUI ic_regions = [[[1], ["Background IC"]], [[2], ["bed"]]]
+#!MFIX-GUI graphics = {"order": [], "data": {}}
+#!MFIX-GUI ui_state = {"mode": "modeler", "navigation": "Output", "graphic_tab": 0}
+#!MFIX-GUI parameters = {"order": ["min", "max", "xmin", "xmax", "ymin", "ymax",
+#!MFIX-GUI   "zmin", "zmax", "km", "m", "cm", "mm", "um", "mile", "yard", "ft",
+#!MFIX-GUI   "ins", "eps"], "parameters": {"min": 0.0, "max": 0.0, "xmin":
+#!MFIX-GUI   -0.001, "xmax": 0.061, "ymin": 0.001, "ymax": 0.028, "zmin":
+#!MFIX-GUI   -0.001, "zmax": 0.024, "km": 1000.0, "m": 1.0, "cm": 0.01, "mm":
+#!MFIX-GUI   0.001, "um": 1e-06, "mile": 1609.34, "yard": 0.9144, "ft": 0.3048,
+#!MFIX-GUI   "ins": 0.0254, "eps": 0.0}}
+#!MFIX-GUI bc_regions = [[[1], ["bounds"]], [[2], ["inlet"]], [[3], ["outlet"]]]
+#!MFIX-GUI retained_keys = {"ro_g0": 1.0}
+#!MFIX-GUI vtk_regions = [[[1], ["Background IC"]], [[2], ["slice_v"]], [[3],
+#!MFIX-GUI   ["slice_h"]]]
+#!MFIX-GUI mfix_exe = C:\Users\juu\Documents\mps_simulation\chamber_delicate_structure3\mfixsolver.bat
+#!MFIX-GUI queue_template = {"JOB_NAME": "${PROJECT_NAME}", "CORES": 40,
+#!MFIX-GUI   "QUEUE": "general", "LONG": "", "MODULES": [], "template": "Joule"}
+#!MFIX-GUI submit_to_queue = 0
+#!MFIX-GUI OMP_NUM_THREADS = 36
+#!MFIX-GUI mesh_accepted = True
